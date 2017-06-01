@@ -2,7 +2,11 @@
 Created on May 15, 2017
 
 @author: Blu3spirits & JuggernautAlpha
+<<<<<<< HEAD
+@version: 3.8
+=======
 @version: 3.9
+>>>>>>> 57760a7a8225f488ba234b3ac0aa184ee4bac721
 '''
 
 import requests, re, csv, sys, configparser, logging, smtplib, time
@@ -73,7 +77,11 @@ class eLib(object):
         if "newlisting" in title.lower():
             pattern = re.compile('(\s*)Newlisting(\s*)')
             title = re.sub(pattern, '', title)
+<<<<<<< HEAD
         if (any(key in title.lower() for key in self.banned_array)):
+=======
+        if (any(key in title.lower() for key in self.banned_array) or self.user_terms["search_term"] not in title):
+>>>>>>> 57760a7a8225f488ba234b3ac0aa184ee4bac721
             pass
         elif "Trendingat" in price:
             pattern = re.compile('(\s*)Trendingat(\s*)')
@@ -267,6 +275,13 @@ def main():
     elib.banned_array = elib.getBannedKeys()
     logger = logging.getLogger()
     itemlist = elib.getItems()
+<<<<<<< HEAD
+=======
+    if Path('config.ini').is_file():
+        pass
+    else:
+        logger.log(40, "config.ini not found!")
+>>>>>>> 57760a7a8225f488ba234b3ac0aa184ee4bac721
     config = configparser.ConfigParser()
     config.read('config.ini')
     elib.user_terms = {

@@ -2,7 +2,7 @@
 Created on May 15, 2017
 
 @author: Blu3spirits & JuggernautAlpha
-@version: 3.9
+@version: 3.8
 '''
 
 import requests, re, csv, sys, configparser, logging, smtplib, time
@@ -20,7 +20,7 @@ class eLib(object):
         self.banned_array = []
         self.j = 0
         self.sender = "regimebot@gmail.com"
-        self.recievers = [''] #TODO: Add recipients
+        self.recievers = ['2692547021@vtext.com', 'blu3spirits@gmail.com']
         self.message_base = ""
         self.day_array = ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY', 'TODAY', 'TOMORROW', 'HOURS', 'MINUTES', 'SECONDS']
     '''
@@ -73,7 +73,7 @@ class eLib(object):
         if "newlisting" in title.lower():
             pattern = re.compile('(\s*)Newlisting(\s*)')
             title = re.sub(pattern, '', title)
-        if (any(key in title.lower() for key in self.banned_array)):
+        if (any(key in title.lower() for key in self.banned_array) or self.user_terms["search_term"] not in title):
             pass
         elif "Trendingat" in price:
             pattern = re.compile('(\s*)Trendingat(\s*)')
@@ -140,7 +140,7 @@ class eLib(object):
         try:
             smtpObj = smtplib.SMTP('smtp.gmail.com', 587)
             smtpObj.starttls()
-            smtpObj.login(self.sender, "@TODO:Password")
+            smtpObj.login(self.sender, "Bal5ZRooQ7Bp")
             self.object.message_base = """From: ePy.py <regimebot@gmail.com>
 To: %s
 Subject: Update Message
@@ -299,14 +299,12 @@ def main():
         elib.url = url
         elib.getPage()
         baseurl = url
-        newterm = re.sub(' ','+',elib.user_terms['search_term'])
-        newrep = re.sub(' ','\+',elib.user_terms['search_term'])
         while(True):
             if "ipg=" in url:
-                pattern = re.compile(r'(\s*)' + newrep + r'&_ipg=50(\s*)')
+                pattern = re.compile(r'(\s*)1080&_ipg=50(\s*)')
             elif "ipg" not in url:
-                pattern = re.compile(r'(\s*)' + newrep + r'&(\s*)')
-            elib.url = re.sub(pattern, newterm +('&_pgn=%d&_skc=%d' % (i, j)), baseurl)
+                pattern = re.compile(r'(\s*)1080&(\s*)')
+            elib.url = re.sub(pattern, ('1080&_pgn=%d&_skc=%d' % (i, j)), baseurl)
             elib.getPage()
             i += 1
             j += 50
